@@ -33,6 +33,7 @@ private async write(cities: City[]) {
   // Defines a getCities method that reads the cities from the searchHistory.json file and returns them as an array of City objects
   async getCities(): Promise<City[]> {
     return await this.read().then((cities) => {
+
       let parsedCities: City[];
 
       // If Cities isn't an array or can't be turned into one, send back a new empty array
@@ -41,7 +42,6 @@ private async write(cities: City[]) {
       } catch (err) {
         parsedCities = [];
       }
-
       return parsedCities;
     });
   }
@@ -64,7 +64,8 @@ async addCity(city: string) {
       }
       return [...cities, newCity];
     })
-    .then((updatedCities) => this.write(updatedCities))
+  .then((updatedCities) => {
+    return this.write(updatedCities)})
     .then(() => newCity);
   }
 

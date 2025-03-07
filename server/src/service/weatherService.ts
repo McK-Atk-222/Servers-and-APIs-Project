@@ -1,32 +1,30 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+// The WeatherService class
 class WeatherService {
-  // Defines the baseURL, API key, and city name properties
+  // Defines the baseURL and API key properties
 baseURL?: string;
 apiKey?: string;
-cityName?: string;
-
   constructor() {
     this.baseURL = process.env.API_BASE_URL || '';
     this.apiKey = process.env.API_KEY || '';
-    this.cityName =  '';
   }
- 
+  
   async getWeatherForCity(city: string) {
 
-    const geoCodeQuery = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${this.apiKey}&units=imperial`
-
+    const geoCodeQuery = `${this.baseURL}/geo/1.0/direct?q=${city}&limit=1&appid=${this.apiKey}&units=imperial`;
     const geoCodeResponse = await fetch(geoCodeQuery);
     const geoCodeData = await geoCodeResponse.json();
 
     const lat = geoCodeData[0].lat;
     const lon = geoCodeData[0].lon;
 
-    const currentWeatherQuery = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=imperial`
-
+    const currentWeatherQuery = `${this.baseURL}/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=imperial`;
     const currentWeatherResponse = await fetch(currentWeatherQuery);
     const currentWeatherData = await currentWeatherResponse.json();
+
+    //console.log(currentWeatherData);
 
     // parse the data
     // city, date, icon, iconDescription, tempF, windSpeed, humidity 
@@ -41,16 +39,18 @@ cityName?: string;
     }
 
     // five day forecast
-    const forecastQuery = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=imperial`
-
+    const forecastQuery = `${this.baseURL}/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=imperial`;
     const forecastResponse = await fetch(forecastQuery);
     const forecastData = await forecastResponse.json();
+
+    // console.log(forecastData);
 
     const filteredForecastData = forecastData.list.filter((data: any) => {
       return data.dt_txt.includes("12:00:00")
     })
 
-    //parse the data
+    // console.log(filteredForecastData)
+
     const parsedForecastData = filteredForecastData.map((data: any) => {
       return {
           city: city,
