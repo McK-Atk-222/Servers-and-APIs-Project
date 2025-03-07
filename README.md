@@ -15,7 +15,7 @@ A weather app that calls on OpenWeather API for current weather and 5-day foreca
 npm i
 
 ## Usage
-npm start
+npm start, Deployed Webpage URL: (https://weather-app-servers-and-apis-project.onrender.com)
 
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
