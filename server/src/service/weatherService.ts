@@ -15,7 +15,9 @@ cityName?: string;
  
   async getWeatherForCity(city: string) {
 
-    const geoCodeResponse = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${this.apiKey}&units=imperial`);
+    const geoCodeQuery = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${this.apiKey}&units=imperial`
+
+    const geoCodeResponse = await fetch(geoCodeQuery);
     const geoCodeData = await geoCodeResponse.json();
 
     const lat = geoCodeData[0].lat;
